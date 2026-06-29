@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlinx-serialization'
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 assert !ext.has("libVersion")
 
 assert extName.chars().max().asInt < 0x180 : "Extension name should be romanized"
@@ -71,7 +69,7 @@ android {
     }
 }
 
-tasks.withType(KotlinCompile).configureEach {
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
         jvmTarget = "11"
         freeCompilerArgs += ["-opt-in=kotlinx.serialization.ExperimentalSerializationApi"]
