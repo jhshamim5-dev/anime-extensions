@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlinx-serialization'
+
+assert !ext.has("libVersion")
+
+assert extName.chars().max().asInt < 0x180 : "Extension name should be romanized"
+
+android {
+    compileSdk 34
+
+    def pkgName = "eu.kanade.tachiyomi.animeextension.${project.parent.name}.${project.name}"
+    namespace pkgName
+    sourceSets {
+        main {
+            manifest.srcFile "AndroidManifest.xml"
+            java.srcDirs = ['src']
+            kotlin.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 34
+        applicationId pkgName
+        versionCode extVersionCode
+        versionName "1.${versionCode}"
+        base {
+            archivesName = "aniyomi-${project.parent.name}.${project.name}-v${versionName}"
+        }
+        assert extClass.startsWith(".")
+        manifestPlaceholders = [
+                appName : "Aniyomi: $extName",
+                author  : "ExtBySalman",
+                extClass: extClass,
+                nsfw    : project.ext.find("isNsfw") ? 1 : 0,
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    dependenciesInfo {
+        includeInApk = false
+    }
+
+    buildFeatures {
+        aidl false
+        renderScript false
+        resValues false
+        shaders false
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlin {
+        jvmToolchain(11)
+    }
+
+    packaging {
+        resources.excludes.add("kotlin-tooling-metadata.json")
+    }
+}
+
+dependencies {
+    implementation(project(":core"))
+    implementation("org.apache.commons:commons-text:1.10.0")
+    compileOnly("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
+    compileOnly("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    compileOnly("org.jsoup:jsoup:1.16.1")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    compileOnly("io.reactivex.rxjava3:rxjava:3.1.8")
+    compileOnly("uy.kohesive.injekt:injekt-core:1.16.1")
+}
