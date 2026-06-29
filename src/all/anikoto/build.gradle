@@ -1,6 +1,6 @@
 ext {
     extName = 'Anikoto'
-    extClass = 'AllAnikoto'
+    extClass = '.Anikoto'
     extVersionCode = 1
 }
 

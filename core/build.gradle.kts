@@ -27,6 +27,7 @@ android {
 }
 
 dependencies {
+    compileOnly("com.github.aniyomiorg:extensions-lib:59418e2c2aab286dc654dde31e071aa82cb0ff7c")
     compileOnly("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
     compileOnly("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     compileOnly("org.jsoup:jsoup:1.16.1")

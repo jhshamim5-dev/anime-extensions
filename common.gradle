@@ -42,6 +42,9 @@ android {
         release {
             minifyEnabled false
         }
+        debug {
+            minifyEnabled false
+        }
     }
 
     dependenciesInfo {
@@ -61,8 +64,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlin {
-        jvmToolchain(11)
+    kotlinOptions {
+        jvmToolchain = 11
+        freeCompilerArgs += ["-opt-in=kotlinx.serialization.ExperimentalSerializationApi"]
     }
 
     packaging {
@@ -72,7 +76,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation("org.apache.commons:commons-text:1.10.0")
+    implementation("commons-text:1.10.0")
     compileOnly("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
     compileOnly("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     compileOnly("org.jsoup:jsoup:1.16.1")
